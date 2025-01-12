@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: venue-service
+  labels:
+      app: venue-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: venue-service
+  template:
+    metadata:
+      labels:
+        app: venue-service
+    spec:
+      containers:
+        - name: venue-service
+          image: jakepel03/event4you-venue-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8084
+          envFrom:
+            - configMapRef:
+                name: service-config
+            - secretRef:
+                name: services-secrets
+
