@@ -19,6 +19,24 @@ spec:
           image: rabbitmq:latest
           ports:
             - containerPort: 5672
+            - containerPort: 15672
+          readinessProbe:
+            tcpSocket:
+              port: 5672
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+            successThreshold: 1
+
+          livenessProbe:
+            tcpSocket:
+              port: 5672
+            initialDelaySeconds: 20
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+            successThreshold: 1
           envFrom:
             - configMapRef:
                 name: service-config
