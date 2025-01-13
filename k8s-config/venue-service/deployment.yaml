@@ -20,6 +20,22 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8084
+          livenessProbe:
+            httpGet:
+              port: 8084
+              path: /venues/health
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
+          readinessProbe:
+            httpGet:
+              port: 8084
+              path: /venues/health
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 3
+            successThreshold: 1
           envFrom:
             - configMapRef:
                 name: service-config
